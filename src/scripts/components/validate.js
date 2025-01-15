@@ -1,8 +1,31 @@
+const resetFormValidation = (form, settings) => {
+  const inputs = Array.from(form.querySelectorAll(settings.inputSelector));
+  const errorElements = Array.from(form.querySelectorAll(`.${settings.errorClass}`));
+  
+  inputs.forEach((input) => {
+    input.classList.remove(settings.inputErrorClass);
+    input.value = ""; 
+  });
+  
+  errorElements.forEach((errorElement) => {
+    errorElement.textContent = "";
+    errorElement.classList.remove(settings.errorClass);
+  });
+
+  const submitButton = form.querySelector(settings.submitButtonSelector);
+  toggleButtonState(inputs, submitButton, settings);
+};
+
 export const enableValidation = (settings) => {
   const forms = document.querySelectorAll(settings.formSelector);
+  
   forms.forEach((form) => {
     form.addEventListener("submit", (e) => e.preventDefault());
     setEventListeners(form, settings);
+    const closeButton = form.closest('.popup').querySelector('.popup__close');
+    closeButton.addEventListener("click", () => {
+      resetFormValidation(form, settings);
+    });
   });
 };
 
@@ -47,6 +70,7 @@ const hideInputError = (form, input, settings) => {
   errorElement.textContent = "";
   errorElement.classList.remove(settings.errorClass);
 };
+
 const hasInvalidInput = (inputs) => {
   return inputs.some((input) => !input.validity.valid);
 };
