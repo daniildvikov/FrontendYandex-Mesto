@@ -1,7 +1,9 @@
 const config = {
   token: 'bf33940d-be3d-4ef9-bf49-2e98c11384ae',
   cohortId: 'apf-cohort-202',
-  baseUrl: 'https://nomoreparties.co/v1/apf-cohort-202',
+  get baseUrl() {
+    return `https://nomoreparties.co/v1/${this.cohortId}`;
+  },
 };
 
 function checkResponse(res) {
