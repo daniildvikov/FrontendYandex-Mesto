@@ -69,14 +69,6 @@ function showError(message) {
   }
 }
 
-export function openConfirmPopup(onConfirm) {
-  openModal(confirmPopup);
-  confirmYesButton.onclick = () => {
-    onConfirm();
-    closeModal(confirmPopup);
-  };
-}
-
 function loadUserProfile() {
   fetchUserData()
     .then(user => {

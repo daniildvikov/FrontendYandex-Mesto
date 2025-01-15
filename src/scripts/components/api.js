@@ -1,6 +1,8 @@
-export const token = 'bf33940d-be3d-4ef9-bf49-2e98c11384ae';
-export const cohortId = 'apf-cohort-202';
-const baseUrl = `https://nomoreparties.co/v1/${cohortId}`;
+const config = {
+  token: 'bf33940d-be3d-4ef9-bf49-2e98c11384ae',
+  cohortId: 'apf-cohort-202',
+  baseUrl: 'https://nomoreparties.co/v1/apf-cohort-202',
+};
 
 function checkResponse(res) {
   if (res.ok) {
@@ -10,10 +12,10 @@ function checkResponse(res) {
 }
 
 function sendRequest(endpoint, options = {}) {
-  return fetch(`${baseUrl}${endpoint}`, {
+  return fetch(`${config.baseUrl}${endpoint}`, {
     ...options,
     headers: {
-      authorization: token,
+      authorization: config.token,
       'Content-Type': 'application/json',
       ...options.headers,
     },
@@ -48,30 +50,14 @@ export function toggleLikeOnServer(cardId, like) {
 }
 
 export function deleteCard(cardId) {
-  const cohortId = 'apf-cohort-202'; 
-  return fetch(`https://nomoreparties.co/v1/${cohortId}/cards/${cardId}`, {
+  return sendRequest(`/cards/${cardId}`, {
     method: 'DELETE',
-    headers: {
-      authorization: token,
-    },
-  }).then(checkResponse);
+  });
 }
 
 export function updateAvatar(avatarUrl) {
-  return fetch(`https://nomoreparties.co/v1/${cohortId}/users/me/avatar`, {
+  return sendRequest('/users/me/avatar', {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': token
-    },
-    body: JSON.stringify({
-      avatar: avatarUrl
-    })
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Не удалось обновить аватар');
-    }
-    return response.json();
+    body: JSON.stringify({ avatar: avatarUrl }),
   });
 }

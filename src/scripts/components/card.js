@@ -1,6 +1,6 @@
-import { cardTemplate, imagePopup, openConfirmPopup} from './index.js';
+import { cardTemplate, imagePopup } from './index.js';
 import { openModal } from './modal.js';
-import { toggleLikeOnServer, deleteCard} from './api.js';
+import { toggleLikeOnServer, deleteCard } from './api.js';
 
 export function createCard(info, currentUserId) {
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
@@ -23,13 +23,11 @@ export function createCard(info, currentUserId) {
   cardTitle.textContent = info.name;
 
   deleteButton.addEventListener('click', () => {
-    openConfirmPopup(() => {
-      deleteCard(info._id)
-        .then(() => {
-          cardElement.remove();
-        })
-        .catch(err => console.error('Ошибка при удалении карточки:', err));
-    });
+    deleteCard(info._id)
+      .then(() => {
+        cardElement.remove();
+      })
+      .catch(err => console.error('Ошибка при удалении карточки:', err));
   });
 
   likeButton.addEventListener('click', () => {
@@ -55,4 +53,3 @@ export function createCard(info, currentUserId) {
 
   return cardElement;
 }
-
