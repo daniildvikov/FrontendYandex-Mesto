@@ -22,12 +22,20 @@ export const enableValidation = (settings) => {
   forms.forEach((form) => {
     form.addEventListener("submit", (e) => e.preventDefault());
     setEventListeners(form, settings);
-    const closeButton = form.closest('.popup').querySelector('.popup__close');
+    const popup = form.closest('.popup');
+    const closeButton = popup.querySelector('.popup__close');
     closeButton.addEventListener("click", () => {
       resetFormValidation(form, settings);
     });
+
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) { 
+        resetFormValidation(form, settings);
+      }
+    });
   });
 };
+
 
 const setEventListeners = (form, settings) => {
   const inputs = Array.from(form.querySelectorAll(settings.inputSelector));
