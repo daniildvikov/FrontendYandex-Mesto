@@ -4,7 +4,6 @@ const resetFormValidation = (form, settings) => {
   
   inputs.forEach((input) => {
     input.classList.remove(settings.inputErrorClass);
-    input.value = ""; 
   });
   
   errorElements.forEach((errorElement) => {
